@@ -19,7 +19,7 @@ vcs import < mocap4ros2_optitrack/dependency_repos.repos
 ```
 Compiling workspace:
 ```
-cd .. && colcon build --symlink-install
+cd .. && colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
 Source workspace:
 ```
