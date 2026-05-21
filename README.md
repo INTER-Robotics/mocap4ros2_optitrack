@@ -1,43 +1,44 @@
-# mocap4r2_optitrack_driver
+# ROS2 Driver for Optitrack Motive
 
-[![rolling](https://github.com/MOCAP4ROS2-Project/mocap4ros2_optitrack/actions/workflows/rolling.yaml/badge.svg)](https://github.com/MOCAP4ROS2-Project/mocap4ros2_optitrack/actions/workflows/rolling.yaml)
+## Installation:
 
-[![codecov](https://codecov.io/gh/MOCAP4ROS2-Project/mocap4r2_optitrack_driver/rolling/graph/badge.svg)](https://codecov.io/gh/MOCAP4ROS2-Project/mocap4r2_optitrack_driver)
-
-Create workspace:
+Clone the repository in your workspace:
 ```
-mkdir -p mocap4r2_ws/src && cd mocap4r2_ws/src
+git clone https://github.com/INTER-Robotics/mocap4ros2_optitrack
 ```
-Download optitrack repo:
+Install the dependencies:
 ```
-git clone https://github.com/MOCAP4ROS2-Project/mocap4ros2_optitrack.git
-```
-Install dependencies:
-```
-rosdep install --from-paths src --ignore-src -r -y
 vcs import < mocap4ros2_optitrack/dependency_repos.repos
 ```
-Compiling workspace:
+Compile the workspace:
 ```
-cd .. && colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
+colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
 Source workspace:
 ```
 source install/setup.bash
 ```
-Setup your optitrack configuration:
-```
-mocap4r2_ws/src/mocap4ros2_optitrack/mocap4r2_optitrack_driver/config/mocap4r2_optitrack_driver_params.yaml
-```
+
+## Configuration:
+
+Modify the file "mocap4ros2_optitrack/mocap4r2_optitrack_driver/config/mocap4r2_optitrack_driver_params.yaml" in accordance to your setup.
+
+## Usage:
+
 Launch optitrack system:
 ```
 ros2 launch mocap4r2_optitrack_driver optitrack2.launch.py
 ```
-Check that Optitrack configuration works fine and is connected. As the driver node is a lifecycle node, you should transition to activate:
+Check that Optitrack configuration works fine and is connected. 
+
+If everything seems correct, you should activate node, as the driver is a lifecycle node. 
 ```
 ros2 lifecycle set /mocap4r2_optitrack_driver_node activate
 ```
-Visualize in rViz:
+RViz:
 ```
 ros2 launch mocap4r2_marker_viz mocap4r2_marker_viz.launch.py mocap4r2_system:=optitrack
 ```
+
+## Possible errors
+If connection is established (in the bash it is indicated) but you are not able to see your rigid bodies and/or markers in RViz it is a problem with the Firewall Configuration. You should allow the connection through the appropiate ports in both, Motive (Windows) and ROS2 Driver (Ubuntu) machines. 
